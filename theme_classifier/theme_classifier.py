@@ -28,7 +28,7 @@ class ThemeClassifier():
         )
 
         return theme_classifier
-    
+
     def get_themes_inference(self, script):
         script_sentences = sent_tokenize(script)
 
@@ -57,23 +57,20 @@ class ThemeClassifier():
         themes = {key: np.mean(np.array(value)) for key,value in themes.items()}
 
         return themes
-    
+
     def get_themes(self,dtaset_path, save_path=None):
-        # Reading & Saving Output if Exists
+        # Read Save Output if Exists
         if save_path is not None and os.path.exists(save_path):
             df = pd.read_csv(save_path)
             return df
 
-        # loading Dataset
         df = load_subtitles_dataset(dtaset_path)
 
-        # Running Inference
         output_themes = df['script'].apply(self.get_themes_inference)
 
         themes_df = pd.DataFrame(output_themes.tolist())
         df[themes_df.columns] = themes_df
 
-        # Saving output
         if save_path is not None:
             df.to_csv(save_path,index=False)
         
