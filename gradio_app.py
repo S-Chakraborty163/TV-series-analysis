@@ -23,6 +23,8 @@ def get_themes(theme_list_str, subtitles_path, save_path):
           height=300
      )
 
+     return output_chart
+
 
 def main():
     with gr.Blocks() as iface:
