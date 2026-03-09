@@ -142,7 +142,6 @@ class CharacterChatBot():
         max_grad_norm = max_grad_norm,
         max_steps = max_steps,
         warmup_ratio = warmup_ratio,
-        group_by_length = True,
         lr_scheduler_type = lr_scheduler_type,
         report_to = "none"
         )
