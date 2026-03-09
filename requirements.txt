@@ -10,3 +10,6 @@ scikit-learn
 datasets
 evaluate
 python-dotenv
+peft
+trl
+bitsandbytes

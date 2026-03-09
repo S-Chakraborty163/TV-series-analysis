@@ -5,6 +5,7 @@ from text_classification import JutsuClassifier
 from dotenv import load_dotenv
 load_dotenv()
 import os
+from character_chatbot import CharacterChatbot
 
 def get_themes(theme_list_str, subtitles_path, save_path):
     theme_list = theme_list_str.split(",")
@@ -62,6 +63,13 @@ def classify_text(text_classification_model, text_classification_data_path, text
      output = output[0]
      return output
 
+def chat_with_character_chatbot(message, history):
+    character_chatbot = CharacterChatbot("Soumyajit900000/Naruto-Llama-3-8b", huggingface_token=os.getenv("huggingface_token"))
+
+    output = character_chatbot.chat(message, history)
+    output = output['content'].strip()
+    return output
+
 
 def main():
     with gr.Blocks() as iface:
@@ -109,6 +117,15 @@ def main():
                             text_to_classify = gr.Textbox(label="Text Input")
                             classify_text_button = gr.Button("Classify Text (jutsu)")
                             classify_text_button.click(classify_text ,inputs=[text_classification_model, text_classification_data_path, text_to_classify], outputs=[text_classification_output])
+
+
+        # Character Chatbot sec:
+
+        with gr.Row():
+           with gr.Column():
+                gr.HTML("<h1>Character Chatbot</h1>")
+                gr.ChatInterface(chat_with_character_chatbot)
+                
 
     iface.launch(share=True)
 
