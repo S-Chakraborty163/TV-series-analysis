@@ -76,11 +76,13 @@ class CharacterChatBot():
             load_in_4bit=True,
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
         )
         pipeline = transformers.pipeline("text-generation",
                                          model = model_path,
                                          model_kwargs={"torch_dtype":torch.float16,
                                                        "quantization_config":bnb_config,
+                                                       "device_map":"auto"
                                                        }
                                          )
         return pipeline
@@ -129,8 +131,9 @@ class CharacterChatBot():
 
         training_arguments = SFTConfig(
         output_dir=output_dir,
-        per_device_train_batch_size = per_device_train_batch_size,
-        gradient_accumulation_steps = gradient_accumulation_steps,
+        per_device_train_batch_size=1,
+        gradient_accumulation_steps=4, 
+        gradient_checkpointing=True,
         optim = optim,
         save_steps = save_steps,
         logging_steps = logging_steps,
@@ -165,6 +168,7 @@ class CharacterChatBot():
         # Flushing memory ...
         del trainer, model
         gc.collect()
+        torch.cuda.empty_cache()
 
         base_model = AutoModelForCausalLM.from_pretrained(base_model_name_or_path,
                                                           return_dict=True,
@@ -182,6 +186,7 @@ class CharacterChatBot():
         # Flushing Memory Again ...
         del model, base_model
         gc.collect()
+        torch.cuda.empty_cache()
 
     def load_data(self):
         naruto_transcript_df = pd.read_csv(self.data_path)
