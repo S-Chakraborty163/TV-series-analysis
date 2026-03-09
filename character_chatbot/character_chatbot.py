@@ -1,3 +1,6 @@
+import os
+os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import pandas as pd
 import torch
 import re
@@ -82,8 +85,11 @@ class CharacterChatBot():
             model_path,
             quantization_config=bnb_config,
             device_map="auto",
-            token=self.huggingface_token
+            token=self.huggingface_token,
+            trust_remote_code=True
         )
+
+        model.eval()
         
         return model
 
