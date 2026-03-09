@@ -5,7 +5,7 @@ from text_classification import JutsuClassifier
 from dotenv import load_dotenv
 load_dotenv()
 import os
-from character_chatbot import CharacterChatbot
+from character_chatbot import CharacterChatBot
 
 def get_themes(theme_list_str, subtitles_path, save_path):
     theme_list = theme_list_str.split(",")
@@ -64,7 +64,7 @@ def classify_text(text_classification_model, text_classification_data_path, text
      return output
 
 def chat_with_character_chatbot(message, history):
-    character_chatbot = CharacterChatbot("Soumyajit900000/Naruto-Llama-3-8b", huggingface_token=os.getenv("huggingface_token"))
+    character_chatbot = CharacterChatBot("Soumyajit900000/Naruto-Llama-3-8b", huggingface_token=os.getenv("huggingface_token"))
 
     output = character_chatbot.chat(message, history)
     output = output['content'].strip()
