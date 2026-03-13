@@ -34,7 +34,7 @@ A domain-specific classifier for the Naruto universe.
 * **Classes:** Ninjutsu, Taijutsu, and Genjutsu.
 * **Optimization:** Implements a custom trainer with weighted loss to handle class imbalance.
 
-### 4. 💬 Character Chatbot (Coming Soon)
+### 4. 💬 Character Chatbot
 An interactive conversational agent designed to mimic character dialogue patterns based on extracted script data.
 
 ---
